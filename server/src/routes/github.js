@@ -3,4 +3,5 @@ import { getUserData } from '../controllers/githubController.js';
 
 const router = Router();
 router.get('/:username', getUserData);
+router.get('/:username/repos', getRepos);
 export default router;

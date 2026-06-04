@@ -24,3 +24,15 @@ export async function getUserData(req, res) {
     res.status(500).json({ error: 'Something went wrong on the server.' });
   }
 }
+
+export async function getRepos(req, res) {
+  const { username } = req.params;
+  const page = parseInt(req.query.page) || 1;
+  try {
+    const repos = await fetchGithubRepos(username, page, 30);
+    res.json({ repos, page, hasMore: repos.length === 30 });
+  } catch (err) {
+    if (err.status === 404) return res.status(404).json({ error: 'User not found' });
+    res.status(500).json({ error: 'Could not fetch repos' });
+  }
+}
