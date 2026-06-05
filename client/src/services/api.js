@@ -1,7 +1,7 @@
-const BASE = import.meta.env.VITE_API_URL || '/api';
+const BASE = import.meta.env.VITE_API_URL || '';
 
 export async function searchUser(username) {
-  const res = await fetch(`${BASE}/github/${username}`);
+  const res = await fetch(`${BASE}/api/github/${username}`);
   if (!res.ok) {
     const { error } = await res.json();
     throw new Error(error || 'Something went wrong');
@@ -10,7 +10,7 @@ export async function searchUser(username) {
 }
 
 export async function loadMoreRepos(username, page) {
-  const res = await fetch(`${BASE}/github/${username}/repos?page=${page}`);
+  const res = await fetch(`${BASE}/api/github/${username}/repos?page=${page}`);
   if (!res.ok) throw new Error('Could not load more repos');
   return res.json();
 }
