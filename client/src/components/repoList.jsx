@@ -35,14 +35,14 @@ export default function RepoList({ repos: initialRepos, username }) {
   };
 
   return (
-    <section className="repo-list">
+    <section className="repo-section">
       <div className="repo-controls">
-        <h3>{repos.length} Repositories</h3>
-        <div className="sort-controls">
+        <h3 className="repo-count">{repos.length} Repositories</h3>
+        <div className="sort-group">
           {SORT_OPTIONS.map(opt => (
             <button
               key={opt.value}
-              className={sortBy === opt.value ? 'active' : ''}
+              className={`sort-btn ${sortBy === opt.value ? 'active' : ''}`}
               onClick={() => setSortBy(opt.value)}
             >
               {opt.label}
@@ -54,7 +54,7 @@ export default function RepoList({ repos: initialRepos, username }) {
         {sorted.map(repo => <RepoCard key={repo.id} repo={repo} />)}
       </div>
       {hasMore && (
-        <button onClick={handleLoadMore} disabled={loadingMore} className="load-more">
+        <button onClick={handleLoadMore} disabled={loadingMore} className="load-more-btn">
           {loadingMore ? 'Loading...' : 'Load More'}
         </button>
       )}

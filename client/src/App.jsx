@@ -21,30 +21,35 @@ export default function App() {
   };
 
   return (
-   <div className="min-h-screen bg-gray-50">
-  <header className="bg-white border-b border-gray-200 py-8 px-4">
-    <div className="max-w-3xl mx-auto space-y-4">
-      <h1 className="text-3xl font-bold text-center text-gray-900">GitHub Explorer</h1>
-      <SearchBar onSearch={handleSearch} />
-      <RecentSearches searches={recentSearches} onSelect={handleSearch} />
+    <div className="app-container">
+      <header className="app-header">
+        <div className="header-content">
+          <h1 className="app-title">GitHub Explorer</h1>
+          <SearchBar onSearch={handleSearch} />
+          <RecentSearches searches={recentSearches} onSelect={handleSearch} />
+        </div>
+      </header>
+      <main className="app-main">
+        {loading && <Skeleton />}
+        {error && (
+          <div className="error-message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            {error}
+          </div>
+        )}
+        {data && !loading && (
+          <>
+            <UserProfile user={data.user} />
+            <LanguageChart repos={data.repos} />
+            <RepoList repos={data.repos} username={data.user.login} />
+          </>
+        )}
+        {!data && !loading && !error && (
+          <div className="empty-state">
+            <p>Search for a GitHub username to get started</p>
+          </div>
+        )}
+      </main>
     </div>
-  </header>
-  <main className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-    {loading && <Skeleton />}
-    {error && (
-      <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>
-    )}
-    {data && !loading && (
-      <>
-        <UserProfile user={data.user} />
-        <LanguageChart repos={data.repos} />
-        <RepoList repos={data.repos} username={data.user.login} />
-      </>
-    )}
-    {!data && !loading && !error && (
-      <p className="text-center text-gray-400 mt-20">Search for a GitHub username to get started</p>
-    )}
-  </main>
-</div>
   );
 }

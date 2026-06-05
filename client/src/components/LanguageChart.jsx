@@ -22,9 +22,9 @@ export default function LanguageChart({ repos }) {
   if (data.length === 0) return null;
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-200 mt-6">
-      <h2 className="text-xl font-semibold mb-4 text-center">Top Languages</h2>
-      <div className="h-64 w-full">
+    <div className="chart-container glass-panel">
+      <h2 className="chart-title">Top Languages</h2>
+      <div className="chart-wrapper">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie

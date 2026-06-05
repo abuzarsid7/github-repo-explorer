@@ -1,17 +1,26 @@
 export default function UserProfile({ user }) {
   return (
-   <div className="flex flex-col sm:flex-row gap-6 p-6 bg-white rounded-xl border border-gray-200">
-  <img src={user.avatar_url} alt={`${user.login}'s avatar`} className="w-24 h-24 rounded-full" />
-  <div>
-    <h2 className="text-xl font-semibold">{user.name || user.login}</h2>
-    <p className="text-gray-500">@{user.login}</p>
-    {user.bio && <p className="mt-1 text-gray-700">{user.bio}</p>}
-    <div className="flex gap-4 mt-3 text-sm text-gray-600">
-      <span><strong>{user.followers}</strong> Followers</span>
-      <span><strong>{user.following}</strong> Following</span>
-      <span><strong>{user.public_repos}</strong> Repos</span>
+    <div className="user-profile glass-panel">
+      <img src={user.avatar_url} alt={`${user.login}'s avatar`} className="user-avatar" />
+      <div className="user-info">
+        <h2 className="user-name">{user.name || user.login}</h2>
+        <p className="user-login">@{user.login}</p>
+        {user.bio && <p className="user-bio">{user.bio}</p>}
+        <div className="user-stats">
+          <div className="stat-item">
+            <span className="stat-value">{user.followers}</span>
+            <span className="stat-label">Followers</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">{user.following}</span>
+            <span className="stat-label">Following</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">{user.public_repos}</span>
+            <span className="stat-label">Repos</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   );
 }
