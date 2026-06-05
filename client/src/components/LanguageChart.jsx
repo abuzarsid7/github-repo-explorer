@@ -25,7 +25,7 @@ export default function LanguageChart({ repos }) {
     <div className="chart-container glass-panel">
       <h2 className="chart-title">Top Languages</h2>
       <div className="chart-wrapper">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={256}>
           <PieChart>
             <Pie
               data={data}
