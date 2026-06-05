@@ -8,8 +8,8 @@ A full-stack web application where users can search any GitHub username and inst
 
 | Layer     | URL                                              |
 | --------- | ------------------------------------------------ |
-| Frontend  | https://github-repo-explorer.vercel.app          |
-| Backend   | github-repo-explorer-production.up.railway.app  |
+| Frontend  | https://github-repo-explorer-ruby.vercel.app/         |
+| Backend   | https://github-repo-explorer-production.up.railway.app  |
 
 > Test from an incognito window to verify the deployed version end-to-end.
 
@@ -31,7 +31,7 @@ A full-stack web application where users can search any GitHub username and inst
 
 ## How to Run Locally
 
-> **Prerequisite:** Node.js ≥ 18 installed. That's it.
+> **Prerequisite:** Node.js ≥ 18 installed.
 
 ### 1. Clone the repository
 
@@ -59,7 +59,7 @@ cd ../client && npm install
 # server/.env
 PORT=5000
 GITHUB_TOKEN=ghp_yourPersonalAccessTokenHere
-CACHE_TTL_SECONDS=60
+FRONTEND_URL=http://localhost:5173
 ```
 
 ```bash
@@ -140,7 +140,7 @@ Returns the GitHub user's public profile and top repositories, along with cache 
 | ------ | ------------------------------- |
 | `404`  | GitHub username does not exist  |
 | `429`  | GitHub API rate limit exceeded  |
-| `500`  | Unexpected server error         |
+| `500`  | Internal server error           |
 
 ---
 
@@ -215,7 +215,8 @@ github-repo-explorer/
 │   │   │   └── github.js          # /api/github endpoints
 │   │   └── services/
 │   │       ├── cacheService.js    # In-memory TTL cache
-│   │       ├── cacheService.test.js
+│   │       ├── cacheService.test.js   
+│   │       ├── githubService.test.js
 │   │       └── githubService.js   # GitHub API calls
 │   ├── index.js                   # Server entry point
 │   ├── .env.example
@@ -247,7 +248,51 @@ The backend holds an in-memory map keyed by `user:<username>`. Each entry stores
 - **No authentication** — adding a GitHub OAuth flow would let users query private repos and dramatically increase rate limits without a hardcoded token.
 - **Rate-limit feedback** — the UI shows a generic error on 429. A nicer touch would be parsing GitHub's `Retry-After` header and displaying a countdown.
 
+---
 
+## Testing
+
+This project includes unit tests for the backend using [Vitest](https://vitest.dev/).
+Tests cover the two most critical backend behaviours — cache logic and GitHub API error handling.
+
+### Running Tests
+
+```bash
+cd server
+npm run test
+```
+
+To run in watch mode during development:
+
+```bash
+npm run test:watch
+```
+
+### Test Files
+
+```
+server/
+└── src/
+    └── services/
+        ├── cacheService.test.js
+        └── githubService.test.js
+```
+
+### What Is Tested
+
+**`cacheService.test.js`**
+
+| Test | What it verifies |
+|---|---|
+| Returns null for missing keys | Cache does not crash or return garbage for unknown keys |
+| Returns data before TTL expires | Store-and-retrieve flow works correctly |
+| Returns null after TTL expires | Entries are correctly invalidated after 60 seconds |
+
+**`githubService.test.js`**
+
+| Test | What it verifies |
+|---|---|
+| Throws with status 404 when user not found | Error is correctly propagated when GitHub returns 404, allowing the controller to respond with the right HTTP status |
 
 ## Acknowledgements
 

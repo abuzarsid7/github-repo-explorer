@@ -10,3 +10,15 @@ describe('cacheService', () => {
     expect(getFromCache('user:test')).toEqual({ name: 'test' });
   });
 });
+it('returns null after TTL expires', () => {
+  vi.useFakeTimers();
+
+  setInCache('user:expired', { name: 'old data' });
+
+  // Jump 61 seconds into the future
+  vi.advanceTimersByTime(61 * 1000);
+
+  expect(getFromCache('user:expired')).toBeNull();
+
+  vi.useRealTimers();
+});
