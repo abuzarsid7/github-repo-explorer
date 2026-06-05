@@ -5,6 +5,7 @@ import UserProfile from './components/UserProfile';
 import RepoList from './components/RepoList';
 import RecentSearches from './components/RecentSearches';
 import Skeleton from './components/Skeleton';
+import LanguageChart from './components/LanguageChart';
 
 export default function App() {
   const { data, loading, error, search } = useGithubSearch();
@@ -36,6 +37,7 @@ export default function App() {
     {data && !loading && (
       <>
         <UserProfile user={data.user} />
+        <LanguageChart repos={data.repos} />
         <RepoList repos={data.repos} username={data.user.login} />
       </>
     )}
