@@ -8,6 +8,12 @@ dotenv.config();
 const app = express();
 app.use(cors({origin: process.env.FRONTEND_URL,}));
 app.use(express.json());
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'Server is running'
+  });
+});
 app.use('/api/github', githubRoutes);
 app.use(errorHandler);
 
