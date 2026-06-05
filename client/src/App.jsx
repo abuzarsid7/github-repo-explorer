@@ -5,7 +5,6 @@ import UserProfile from './components/UserProfile';
 import RepoList from './components/RepoList';
 import RecentSearches from './components/RecentSearches';
 import Skeleton from './components/Skeleton';
-import './App.css';
 
 export default function App() {
   const { data, loading, error, search } = useGithubSearch();
@@ -21,28 +20,29 @@ export default function App() {
   };
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>GitHub Explorer</h1>
-        <SearchBar onSearch={handleSearch} />
-        <RecentSearches searches={recentSearches} onSelect={handleSearch} />
-      </header>
-
-      <main className="app-main">
-        {loading && <Skeleton />}
-        {error && <div className="error-banner">{error}</div>}
-        {data && !loading && (
-          <>
-            <UserProfile user={data.user} />
-            <RepoList repos={data.repos} username={data.user.login} />
-          </>
-        )}
-        {!data && !loading && !error && (
-          <div className="empty-state">
-            <p>Search for a GitHub username to get started</p>
-          </div>
-        )}
-      </main>
+   <div className="min-h-screen bg-gray-50">
+  <header className="bg-white border-b border-gray-200 py-8 px-4">
+    <div className="max-w-3xl mx-auto space-y-4">
+      <h1 className="text-3xl font-bold text-center text-gray-900">GitHub Explorer</h1>
+      <SearchBar onSearch={handleSearch} />
+      <RecentSearches searches={recentSearches} onSelect={handleSearch} />
     </div>
+  </header>
+  <main className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+    {loading && <Skeleton />}
+    {error && (
+      <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>
+    )}
+    {data && !loading && (
+      <>
+        <UserProfile user={data.user} />
+        <RepoList repos={data.repos} username={data.user.login} />
+      </>
+    )}
+    {!data && !loading && !error && (
+      <p className="text-center text-gray-400 mt-20">Search for a GitHub username to get started</p>
+    )}
+  </main>
+</div>
   );
 }
