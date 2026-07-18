@@ -2,16 +2,6 @@
 
 A full-stack web application where users can search any GitHub username and instantly view their public profile and repositories.
 
----
-
-## Live Demo
-
-| Layer     | URL                                              |
-| --------- | ------------------------------------------------ |
-| Frontend  | https://github-repo-explorer-ruby.vercel.app/         |
-| Backend   | https://github-repo-explorer-production.up.railway.app  |
-
-> Test from an incognito window to verify the deployed version end-to-end.
 
 ---
 
